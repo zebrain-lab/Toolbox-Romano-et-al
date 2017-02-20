@@ -7,7 +7,8 @@ See **A computational toolbox and step-by-step tutorial for the analysis of neur
 ### Description of variables
 We now describe all the variables stored in Matlab .mat files during the utilization of the
 toolbox. All the files correspond to processing and analysis of a fluorescence imaging video (e.g., myVideo.tif) with *T* imaging frames and *N* ROIs.
-
+<br /> 
+<br />
 - In the **_ALL_CELLS.mat** file (e.g., myVideo_ALL_CELLS.mat), the following variables are
 stored:
 
@@ -32,14 +33,14 @@ neuropil that surrounds each ROIs.
 *pixelLengthX* : size in micrometers of each image pixel in the X direction.
 
 *pixelLengthY* : size in micrometers of each image pixel in the Y direction.
-
-
+<br />
+<br />
 - In the **_ARTIFACTS.mat** file (e.g., myVideo_ARTIFACTS.mat), the following variable is stored:
 
 *movements* : *T* x 1 binary array, with ones for imaging frames where a movement artifact was
 found, and zeros otherwise.
-
-
+<br />
+<br />
 - In the **_RASTER.mat** file (e.g., myVideo_RASTER.mat), the following variables are stored:
 
 *raster* : a *T* x *N* matrix of the significant fluorescence transients of all accepted ROIs.
@@ -73,8 +74,8 @@ biophysically realistic (rasters are determined with this map).
 *imageAvg* : the average image (across video frames) of your TIFF file.
 
 *params* : parameters chosen by the user for the analysis of the fluorescence dynamics.
-
-
+<br />
+<br />
 - In the **_RESPONSE_MAP.mat** file (e.g., myVideo_RESPONSE_MAP.mat), the following variables
 are stored:
 
@@ -95,8 +96,8 @@ the inverse of the saturation color channel).
 
 *peakResponse* : *N* x 1 matrix with the ∆F/F value of the ROI peak response (mapped to the value
 color channel).
-
-
+<br />
+<br />
 - In the **_CLUSTERS.mat** file (e.g., myVideo_CLUSTERS.mat), the following
 variables are stored:
 
@@ -120,8 +121,8 @@ assemblies' matching indexes.
 
 *matchIndexTimeSeriesSignificantPeaks* : *M* x *T* matrix with the transient peaks of significant
 assemblies' matching indexes.
-
-
+<br />
+<br />
 - In the **_ORDER_TOPO.mat** file (e.g., myVideo_ORDER_TOPO.mat), the following variables are
 stored:
 
@@ -132,8 +133,8 @@ anatomical axis drawn by the user (non-assembly cells are at the bottom).
 
 *assembliesOrdered* : Matlab cell array of size 1 x *R*, where *R* is the number of anatomical axes
 selected.
-
-
+<br />
+<br />
 - In the **_SURROGATE_CLUSTERS.mat** file (e.g., myVideo_SURROGATE_CLUSTERS.mat), the
 following variables are stored:
 
@@ -143,8 +144,8 @@ random assemblies per original assembly, with the list of ROIs in each random su
 *assembliessSurrogateTopo* : Matlab cell array of size *P* x *K*, where *K* is the number of surrogate
 topographic assemblies per original assembly, with the list of ROIs in each topographic surrogate
 assembly.
-
-
+<br />
+<br />
 - In the **_ASSEMBLIES_vs_SURROGATE.mat** file (e.g., myVideo_ASSEMBLIES_vs_SURROGATE.mat), the following variables are stored:
 
 *varAssemblies* : Matlab cell array of size 1 x *F*, where *F* is the number of features. For feature *Fi*
