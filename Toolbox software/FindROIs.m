@@ -3,7 +3,7 @@
 clear all; close all;clc;
 %%%%%%%%%%%%%%% PARAMETERS 1 %%%%%%%%%%%%%%%%%
 
-[filename,pathname] = uigetfile({'*.tif';'*.TIFF'},'Open file', 'MultiSelect', 'off');
+[filename,pathname] = uigetfile({'*.tif';'*.TIFF'},'Open TIFF file with imaging video', 'MultiSelect', 'off');
 fileName=fullfile(pathname,filename);
 
 prompt = {'\mum per pixel in x direction','\mum per pixel in y direction'};
@@ -16,7 +16,7 @@ pixelLengthX= str2num(answer{1});
 pixelLengthY= str2num(answer{2});
 
 
-ansMethod = questdlg('Select method to define ROIs','ROI definition method', 'Automatically detect single-neuron ROIs', 'Manually draw all ROIs','Use hexagonal grid of ROIs','Automatically detect single-neuron ROIs');
+ansMethod = questdlg('Select method to define ROIs','ROI definition method', 'Automatically detect single-neuron ROIs', 'Use hexagonal grid of ROIs','Import or manually draw all ROIs','Automatically detect single-neuron ROIs');
 
 if strcmp(ansMethod,'Use hexagonal grid of ROIs')
     prompt = {'Diameter of hexagonal ROIs (in \mum)'};
@@ -29,6 +29,10 @@ if strcmp(ansMethod,'Use hexagonal grid of ROIs')
 
 end
 
+if strcmp(ansMethod,'Import or manually draw all ROIs')
+    ansMethod = questdlg('Select method to define ROIs','ROI definition method', 'Manually draw all ROIs','Import ROIs', 'Manually draw all ROIs');
+
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %v = ver;
 %parOn=any(strcmp('Parallel Computing Toolbox', {v.Name}));
@@ -70,14 +74,51 @@ text_si=18;
 scrsz = get(0, 'ScreenSize');
 set(0,'DefaultAxesFontSize',text_si,'DefaultFigureColor','w', 'DefaultAxesTickDir', 'in','DefaultFigureWindowStyle','normal',...
     'DefaultFigurePosition', [1 1 scrsz(3) scrsz(4)])
-
-step='ROI_Mask';
+if strcmp(ansMethod,'Import ROIs')
+    step='ImportROIs';
+else
+    step='ROI_Mask';
+end
 end_pro=0;
 clear first_autoROI first_okROI
 
 
 while end_pro==0
     switch step
+        case 'ImportROIs'
+            [file,pth] = uigetfile({'*.mat';'*.MAT'},'Select file with ROIs to import', 'MultiSelect', 'off');
+            fileROIs=fullfile(pth,file);
+            load(fileROIs);
+            
+            CC2 = bwconncomp(importedROIs,4);
+            cell_per=cell(CC2.NumObjects,1);
+            cells=cell(CC2.NumObjects,1);
+            cell_number=CC2.NumObjects;
+            f=squeeze(mean(video,1));
+            f=f/max(max(f));
+            avg=f;
+            
+            bkg=importedROIs;
+            
+            figure
+            imagesc(f);
+            shading flat; colormap gray; set(gca,'xticklabel','','yticklabel','');axis image;
+          
+            for i=1:CC2.NumObjects
+                imgROI=logical(zeros(size(importedROIs)));
+                imgROI(CC2.PixelIdxList{i})=1;
+                pointsTemp=bwboundaries(imgROI);
+                cell_per{i}=fliplr(pointsTemp{1});
+                cells{i}=CC2.PixelIdxList{i};
+                lp=line(cell_per{i}(:,1),cell_per{i}(:,2)); set(lp,'color',[1 0 0],'LineWidth',1);
+         
+            end
+          
+            
+               
+            
+            step='DF_save';
+
         case 'ROI_Mask'
             f=squeeze(mean(video,1));
             fOld=f;
