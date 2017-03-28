@@ -964,9 +964,6 @@ while end_pro==0
             end
             cell_number=CC2.NumObjects;
            
-            for j=1:length(cell_per);
-                cell_per{j}= fliplr(cell_per{j});
-            end
             bkg=temp;
             close(hf)
             
