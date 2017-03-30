@@ -60,8 +60,8 @@ deltaFoFOld=deltaFoF;
 raster(:,nonCosideredCells)=[];
 deltaFoF(:,nonCosideredCells)=[];
 
-rasterAnalog=deltaFoF;
-rasterClean=double(raster);
+rasterAnalog=single(deltaFoF);
+rasterClean=single(raster);
 rasterClean(logical(movements),:)=0;
 rasterAnalog(logical(movements),:)=0;
 rasterAnalog(~logical(rasterClean))=0;
