@@ -15,7 +15,6 @@ answer = inputdlg(prompt,dlg_title,num_lines,def,opts);
 pixelLengthX= str2num(answer{1});
 pixelLengthY= str2num(answer{2});
 
-
 ansMethod = questdlg('Select method to define ROIs','ROI definition method', 'Automatically detect single-neuron ROIs', 'Use hexagonal grid of ROIs','Import or manually draw all ROIs','Automatically detect single-neuron ROIs');
 
 if strcmp(ansMethod,'Use hexagonal grid of ROIs')
