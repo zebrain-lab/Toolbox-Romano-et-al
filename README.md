@@ -4,6 +4,8 @@
 
 See **A computational toolbox and step-by-step tutorial for the analysis of neuronal population dynamics in calcium imaging data** by Romano et al for full description (doi.org/10.1101/103879).
 
+Developed at Zebrafish Neuroethology lab (http://www.zebrain.biologie.ens.fr/)
+
 ### Description of variables
 We now describe all the variables stored in Matlab .mat files during the utilization of the
 toolbox. All the files correspond to processing and analysis of a fluorescence imaging video (e.g., myVideo.tif) with *T* imaging frames and *N* ROIs.
