@@ -6,6 +6,9 @@ See **A computational toolbox and step-by-step tutorial for the analysis of neur
 
 Developed at Zebrafish Neuroethology lab (http://www.zebrain.biologie.ens.fr/)
 
+### Bug fixes
+April 2017: Fixed bug in FindROIs.m that mistakenly stored inverted ROI perimeters (i.e., a "mirror image" of the correct ROIs).
+
 ### Description of variables
 We now describe all the variables stored in Matlab .mat files during the utilization of the
 toolbox. All the files correspond to processing and analysis of a fluorescence imaging video (e.g., myVideo.tif) with *T* imaging frames and *N* ROIs.
