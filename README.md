@@ -6,6 +6,10 @@ See **A computational toolbox and step-by-step tutorial for the analysis of neur
 
 Developed at Zebrafish Neuroethology lab (http://www.zebrain.biologie.ens.fr/)
 
+## Installation
+Download the latest version of the toolbox by clicking on "Clone or download". Unfortunately, GitHub does not allow downloading files larger than 50MB this way, you will obtain a compressed zip file where files >50MB will be replaced by 134-bytes "dummy" files. The test data has 3 files larger than 50MB: "OT.tif" and "OT_reg_smooth.tif" in the "Test Data" folder, and "OT_reg_smooth_RASTER.mat" in the "Test Data/Processed files" folder. To download the correct version of these large files, you should individually click on the corresponding links in the repository (e.g., navigate to "Test Data", click on "OT.tif" and then on "Download"), and replace the "dummy" 134-bytes files on your computer.
+
+
 ### Bug fixes
 April 2017: Fixed bug in FindROIs.m that mistakenly stored inverted ROI perimeters (i.e., a "mirror image" of the correct ROIs).
 
