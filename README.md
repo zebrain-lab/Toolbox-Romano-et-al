@@ -2,7 +2,9 @@
 
 ## Computational toolbox for analysis of calcium imaging data of neuronal populations
 
-See **A computational toolbox and step-by-step tutorial for the analysis of neuronal population dynamics in calcium imaging data** by Romano et al for full description (doi.org/10.1101/103879).
+See the preprint **A computational toolbox and step-by-step tutorial for the analysis of neuronal population dynamics in calcium imaging data** by Romano et al for tutorial and full description (doi.org/10.1101/103879).
+
+The toolbox is demonstrated in the paper **An integrated calcium imaging processing toolbox for the analysis of neuronal population dynamics** by Romano et al (doi.org/10.1371/journal.pcbi.1005526).
 
 Developed at Zebrafish Neuroethology lab (http://www.zebrain.biologie.ens.fr/)
 
