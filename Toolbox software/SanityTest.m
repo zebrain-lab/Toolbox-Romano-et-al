@@ -35,26 +35,40 @@ smoothBaseline=zeros(size(fluoTraces));
 
 disp('1.1 Calculating fluorescence baseline of ROIs...')
 if parOn
-    parfor j=1:numCells
-        dataSlice=fluoTraces(:,j);
-        temp=zeros(numFrames-2*wdw,1);
-        for i=wdw+1:numFrames-wdw
-            temp(i-wdw)=prctile(dataSlice(i-wdw:i+wdw),8);
+      if numFrames > 2*wdw
+        parfor j=1:numCells
+            dataSlice=fluoTraces(:,j);
+            temp=zeros(numFrames-2*wdw,1);
+            for i=wdw+1:numFrames-wdw
+                temp(i-wdw)=prctile(dataSlice(i-wdw:i+wdw),8);
+            end
+            smoothBaseline(:,j)=[temp(1)*ones(wdw,1) ; temp; temp(end)*ones(wdw,1)];
+            smoothBaseline(:,j)=runline(smoothBaseline(:,j),wdw,1);
         end
-        smoothBaseline(:,j)=[temp(1)*ones(wdw,1) ; temp; temp(end)*ones(wdw,1)];
-        smoothBaseline(:,j)=runline(smoothBaseline(:,j),wdw,1);
         
+    else
+        parfor j=1:numCells
+            smoothBaseline(:,j)=[ones(numFrames,1)*prctile(fluoTraces(:,j),8)];
+        end
     end
 else
-    for j=1:numCells
-        dataSlice=fluoTraces(:,j);
-        temp=zeros(numFrames-2*wdw,1);
-        for i=wdw+1:numFrames-wdw
-            temp(i-wdw)=prctile(dataSlice(i-wdw:i+wdw),8);
+    if numFrames > 2*wdw
+        for j=1:numCells
+            dataSlice=fluoTraces(:,j);
+            temp=zeros(numFrames-2*wdw,1);
+            for i=wdw+1:numFrames-wdw
+                temp(i-wdw)=prctile(dataSlice(i-wdw:i+wdw),8);
+            end
+            smoothBaseline(:,j)=[temp(1)*ones(wdw,1) ; temp; temp(end)*ones(wdw,1)];
+            smoothBaseline(:,j)=runline(smoothBaseline(:,j),wdw,1);
         end
-        smoothBaseline(:,j)=[temp(1)*ones(wdw,1) ; temp; temp(end)*ones(wdw,1)];
-        smoothBaseline(:,j)=runline(smoothBaseline(:,j),wdw,1);
+        
+    else
+        for j=1:numCells
+            smoothBaseline(:,j)=[ones(numFrames,1)*prctile(fluoTraces(:,j),8)];
+        end
     end
+    
 end
 
 if strcmp(params.fluoBaselineCalculation.Method,'Smooth slow dynamics')
