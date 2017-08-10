@@ -9,8 +9,12 @@ The toolbox is demonstrated in the paper **An integrated calcium imaging process
 Developed at Zebrafish Neuroethology lab (http://www.zebrain.biologie.ens.fr/)
 
 ## Installation
-Download the latest version of the toolbox by clicking on "Clone or download". Unfortunately, GitHub does not allow downloading files larger than 50MB this way, you will obtain a compressed zip file where files >50MB will be replaced by 134-bytes "dummy" files. The test data has 3 files larger than 50MB: "OT.tif" and "OT_reg_smooth.tif" in the "Test Data" folder, and "OT_reg_smooth_RASTER.mat" in the "Test Data/Processed files" folder. To download the correct version of these large files, you should individually click on the corresponding links in the repository (e.g., navigate to "Test Data", click on "OT.tif" and then on "Download"), and replace the "dummy" 134-bytes files on your computer.
+Download the latest version of the toolbox by clicking on "Clone or download" of this GitHub repository. 
 
+UPDATE August 2017:
+Due to the GitHub bandwidht limitation, the test dataset for the toolbox tutorial described in the biorxiv preprint has been moved here: http://www.zebrain.biologie.ens.fr/codes/ToolboxRomanoetal_TestData.zip
+When download completes, unzip and move the "Test data" folder to the the "Toolbox-Romano-et-al" folder downloaded from this GitHub repository.
+We apoplogize for problems experienced by users lately when trying to download the test dataset directly from GitHub. We were unaware of the bandwidth limitation on the Git LFS used to download the dataset from the repository. This limit was exceeded a while ago and Git LFS was automatically disabled for this project, making download of the dataset impossible, and we missed the warning email. We hope that by moving the test dataset we will avoid future problems.
 
 ### Bug fixes
 April 2017: Fixed bug in FindROIs.m that mistakenly stored inverted ROI perimeters (i.e., a "mirror image" of the correct ROIs).
