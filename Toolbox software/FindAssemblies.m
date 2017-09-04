@@ -14,11 +14,32 @@ else
     filenameALL_CELLS=[filenameRASTER(1:cutName-1) '_ALL_CELLS.mat'];
     outputFile=[filenameRASTER(1:cutName-1) '_CLUSTERS.mat'];
 end
-if exist(filenameALL_CELLS, 'file') == 2
-    dataAllCells=load(filenameALL_CELLS);
-end
 
 dataRaster=load(filenameRASTER);
+if exist(filenameALL_CELLS, 'file') == 2
+    dataAllCells=load(filenameALL_CELLS);
+else
+    if isfield(dataRaster,'dataAllCells')
+        if isfield(dataRaster.dataAllCells,'avg')
+            dataAllCells.avg=dataRaster.dataAllCells.avg;
+        else
+            disp('Error: Field dataAllCells.avg missing in imported fluorescence file. See "Imported Fluorescence Data File" in Box 2 of tutorial. Quitting program.')
+        end
+        if isfield(dataRaster.dataAllCells,'cell_per')
+            dataAllCells.cell_per=dataRaster.dataAllCells.cell_per;
+        else
+            disp('Error: Field dataAllCells.cell_per missing in imported fluorescence file. See "Imported Fluorescence Data File" in Box 2 of tutorial. Quitting program.')
+        end
+        if isfield(dataRaster.dataAllCells,'cell')
+            dataAllCells.cell=dataRaster.dataAllCells.cell;
+        else
+            disp('Error: Field dataAllCells.cell missing in imported fluorescence file. See "Imported Fluorescence Data File" in Box 2 of tutorial. Quitting program.')
+        end
+    else
+        disp('Error: Variable dataAllCells missing in imported fluorescence file. See "Imported Fluorescence Data File" in Box 2 of tutorial. Quitting program.')
+    end
+end
+
 raster=dataRaster.raster;
 deltaFoF=dataRaster.deltaFoF;
 movements=dataRaster.movements;
