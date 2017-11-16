@@ -230,124 +230,125 @@ ind_movements=find(movements');
 DIS_MIN_GR=5;
 clear group_mov ind_group_mov
 group_mov=1;
-ind_group_mov{group_mov}=ind_movements(1);
-for i=2:length(ind_movements)
-    if ind_movements(i)-ind_movements(i-1)<DIS_MIN_GR
-        ind_group_mov{group_mov}=[ind_group_mov{group_mov} ind_movements(i)];
-    else
-        group_mov=group_mov+1;
-        ind_group_mov{group_mov}=ind_movements(i);
-    end
-end
-clean_mov=cell(1,length(ind_group_mov));
-
-dir=0;
-windows_frame=5;
-hf=figure;
-allIn=0;
-for quan_mov=1:group_mov
-    clf
-    subplot(1,2,1)
-    posIm=get(gca,'Position');
-    width=.1; height=.1;
-    x=posIm(1); y=max(posIm(2)-2*height-0.01,0.01);
-    uicontrol('Style','pushbutton','String','Pause','CallBack','uiwait(gcf)','Units','normalized','Position',[x y width height]);
-    x=x+width+0.01;
-    uicontrol('Style','pushbutton','String','Continue','CallBack','uiresume(gcbf)','Units','normalized','Position',[x y width height]);
-    x=x+1.5*width;
-    uicontrol('Style','pushbutton','String','Accept all','CallBack',{@break_function},'Units','normalized','Position',[x y width height]);
-   
-    
-    x=posIm(1)+posIm(3)+.01; y=posIm(2)+.1;
-    uicontrol('Style','pushbutton','String','<< Previous frame','CallBack',{@dir_back_function},'Units','normalized','Position',[x y width height]);
-    x=x+width+0.01;
-    uicontrol('Style','pushbutton','String','Next frame >>','CallBack',{@dir_foward_function},'Units','normalized','Position',[x y width height]);
-    x=posIm(1)+posIm(3)+.01; y=y+height+0.01;
-    uicontrol('Style','pushbutton','String','Yes','CallBack',{@mov_ok_function},'Units','normalized','Position',[x y width height]);
-    x=x+width+0.01;
-    uicontrol('Style','pushbutton','String','No','CallBack',{@mov_no_ok_function},'Units','normalized','Position',[x y width height]);
- 
-   
-    if ind_group_mov{quan_mov}(1)>windows_frame
-        START=ind_group_mov{quan_mov}(1)-windows_frame;
-    else
-        START=1;
-    end
-    if ind_group_mov{quan_mov}(end)+windows_frame<numFrames
-        END=ind_group_mov{quan_mov}(end)+windows_frame;
-    else
-        END=numFrames;
-    end
-    
-    clear video
-    video=zeros(END-START,tiffInfo(1).Height,tiffInfo(1).Width, 'single');
-    for i=START:END
-        video(i-START+1,:,:)=im2single(imread(fileName,i));
-    end
-    video=video(:,rowsRect,colsRect);
-    video(:,~mask_backup)=0;
-    width=.2;height=.1;
-    xTxt=posIm(1)+posIm(3)+.01;yTxt=y+height+.01;
-    height=.05;
-    yTxt2=yTxt+height+.01;
-    while length(clean_mov{quan_mov})~= length(ind_group_mov{quan_mov})
-        if allIn
-            break
+if ~isempty(ind_movements)
+    ind_group_mov{group_mov}=ind_movements(1);
+    for i=2:length(ind_movements)
+        if ind_movements(i)-ind_movements(i-1)<DIS_MIN_GR
+            ind_group_mov{group_mov}=[ind_group_mov{group_mov} ind_movements(i)];
+        else
+            group_mov=group_mov+1;
+            ind_group_mov{group_mov}=ind_movements(i);
         end
-        for j=1:length(ind_group_mov{quan_mov})
-            mov_ok=[];
-            FRA_TO_SHOW=ind_group_mov{quan_mov}(j)-START+1;
-            dir=0;
+    end
+    clean_mov=cell(1,length(ind_group_mov));
+    
+    dir=0;
+    windows_frame=5;
+    hf=figure;
+    allIn=0;
+    for quan_mov=1:group_mov
+        clf
+        subplot(1,2,1)
+        posIm=get(gca,'Position');
+        width=.1; height=.1;
+        x=posIm(1); y=max(posIm(2)-2*height-0.01,0.01);
+        uicontrol('Style','pushbutton','String','Pause','CallBack','uiwait(gcf)','Units','normalized','Position',[x y width height]);
+        x=x+width+0.01;
+        uicontrol('Style','pushbutton','String','Continue','CallBack','uiresume(gcbf)','Units','normalized','Position',[x y width height]);
+        x=x+1.5*width;
+        uicontrol('Style','pushbutton','String','Accept all','CallBack',{@break_function},'Units','normalized','Position',[x y width height]);
+        
+        
+        x=posIm(1)+posIm(3)+.01; y=posIm(2)+.1;
+        uicontrol('Style','pushbutton','String','<< Previous frame','CallBack',{@dir_back_function},'Units','normalized','Position',[x y width height]);
+        x=x+width+0.01;
+        uicontrol('Style','pushbutton','String','Next frame >>','CallBack',{@dir_foward_function},'Units','normalized','Position',[x y width height]);
+        x=posIm(1)+posIm(3)+.01; y=y+height+0.01;
+        uicontrol('Style','pushbutton','String','Yes','CallBack',{@mov_ok_function},'Units','normalized','Position',[x y width height]);
+        x=x+width+0.01;
+        uicontrol('Style','pushbutton','String','No','CallBack',{@mov_no_ok_function},'Units','normalized','Position',[x y width height]);
+        
+        
+        if ind_group_mov{quan_mov}(1)>windows_frame
+            START=ind_group_mov{quan_mov}(1)-windows_frame;
+        else
+            START=1;
+        end
+        if ind_group_mov{quan_mov}(end)+windows_frame<numFrames
+            END=ind_group_mov{quan_mov}(end)+windows_frame;
+        else
+            END=numFrames;
+        end
+        
+        clear video
+        video=zeros(END-START,tiffInfo(1).Height,tiffInfo(1).Width, 'single');
+        for i=START:END
+            video(i-START+1,:,:)=im2single(imread(fileName,i));
+        end
+        video=video(:,rowsRect,colsRect);
+        video(:,~mask_backup)=0;
+        width=.2;height=.1;
+        xTxt=posIm(1)+posIm(3)+.01;yTxt=y+height+.01;
+        height=.05;
+        yTxt2=yTxt+height+.01;
+        while length(clean_mov{quan_mov})~= length(ind_group_mov{quan_mov})
             if allIn
                 break
             end
-            while isempty(mov_ok)
-                if allIn
-                   break 
-                end
-                if (dir==-1 & FRA_TO_SHOW > 1) | (dir==1 & FRA_TO_SHOW < size(video,1))
-                    FRA_TO_SHOW=FRA_TO_SHOW+dir;
-                end
-                
+            for j=1:length(ind_group_mov{quan_mov})
+                mov_ok=[];
+                FRA_TO_SHOW=ind_group_mov{quan_mov}(j)-START+1;
                 dir=0;
-               subplot(1,2,1)
-                imagesc(squeeze(video(FRA_TO_SHOW,:,:)))
-                set(gca,'xticklabel','','ytickLabel','')
-                axis image
-                colormap(gray)
-                caxis([min_video max_video*1.2])
-                if ismember(START-1+FRA_TO_SHOW, ind_group_mov{quan_mov})
-                    col_frame='r';
-                else
-                    col_frame='k';
+                if allIn
+                    break
                 end
-                title(['Frame number ' num2str(START-1+FRA_TO_SHOW)],'color',col_frame)
-               
-                uicontrol('Style','text','Units','normalized','position',[xTxt yTxt width height],...
-                    'String',{'Does frame ' num2str(ind_group_mov{quan_mov}(j)) ' contain an artifact?'})
-             
-                uicontrol('Style','text','Units','normalized','position',[xTxt yTxt2 width height],...
-                    'String',{['Checking frame ' num2str(j) ' (out of ' num2str(length(ind_group_mov{quan_mov})) ')'] ...
-                    ['from event ' num2str(quan_mov) ' (out of ' num2str(group_mov) ')']})
-               
-                
-                drawnow
-                clean_mov{quan_mov}=[clean_mov{quan_mov} mov_ok];
+                while isempty(mov_ok)
+                    if allIn
+                        break
+                    end
+                    if (dir==-1 & FRA_TO_SHOW > 1) | (dir==1 & FRA_TO_SHOW < size(video,1))
+                        FRA_TO_SHOW=FRA_TO_SHOW+dir;
+                    end
+                    
+                    dir=0;
+                    subplot(1,2,1)
+                    imagesc(squeeze(video(FRA_TO_SHOW,:,:)))
+                    set(gca,'xticklabel','','ytickLabel','')
+                    axis image
+                    colormap(gray)
+                    caxis([min_video max_video*1.2])
+                    if ismember(START-1+FRA_TO_SHOW, ind_group_mov{quan_mov})
+                        col_frame='r';
+                    else
+                        col_frame='k';
+                    end
+                    title(['Frame number ' num2str(START-1+FRA_TO_SHOW)],'color',col_frame)
+                    
+                    uicontrol('Style','text','Units','normalized','position',[xTxt yTxt width height],...
+                        'String',{'Does frame ' num2str(ind_group_mov{quan_mov}(j)) ' contain an artifact?'})
+                    
+                    uicontrol('Style','text','Units','normalized','position',[xTxt yTxt2 width height],...
+                        'String',{['Checking frame ' num2str(j) ' (out of ' num2str(length(ind_group_mov{quan_mov})) ')'] ...
+                        ['from event ' num2str(quan_mov) ' (out of ' num2str(group_mov) ')']})
+                    
+                    
+                    drawnow
+                    clean_mov{quan_mov}=[clean_mov{quan_mov} mov_ok];
+                end
             end
         end
     end
-end
-close(hf)
-
-if allIn
-   movements=ones(numFrames,1);
-else
-    movements_original=movements;
-    for quan_mov=1:group_mov
-        movements(ind_group_mov{quan_mov})=clean_mov{quan_mov};
+    close(hf)
+    
+    if allIn
+        movements=ones(numFrames,1);
+    else
+        movements_original=movements;
+        for quan_mov=1:group_mov
+            movements(ind_group_mov{quan_mov})=clean_mov{quan_mov};
+        end
     end
 end
-
 inputTitle = char('Inform any other artifact');
 prompt = {['Are there any other frames that you want to label as artifacts? If so, which ones? (numbers separeted by spaces):']};
 answer = inputdlg(prompt, inputTitle, 1);
