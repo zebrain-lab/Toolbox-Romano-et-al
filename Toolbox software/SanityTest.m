@@ -91,7 +91,16 @@ if ~isempty(deletedCells)
     distances=data.distances; pixelLengthX=data.pixelLengthX; pixelLengthY=data.pixelLengthY;
     
     cut=strfind(filename,'.mat');
-    filenameBackUp=[filename(1:cut-1) '_Original.mat'];
+    doneOriginal=0; countOriginal=1;
+    while doneOriginal==0
+        filenameBackUp=[filename(1:cut-1) '_Original' num2str(countOriginal) '.mat'];
+        if exist(filenameBackUp)==2
+            countOriginal=countOriginal+1;
+            continue
+        else
+            doneOriginal=1;
+        end      
+    end
     save(filenameBackUp,'avg','bkg','cell_number','cells_mean','npil_mean','cell_per','cells','distances','pixelLengthX','pixelLengthY');
     deleted.bkg=zeros(size(bkg));
     for i=1:length(deletedCells)
